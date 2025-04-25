@@ -2,6 +2,7 @@ import { useDropzone } from 'react-dropzone';
 import { useState, useCallback } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import pdfWorker from 'pdfjs-dist/build/pdf.worker.min?url';
+import * as pdfjsLib from "pdfjs-dist";
 pdfjs.GlobalWorkerOptions.workerSrc = pdfWorker;
 
 const UploadButton = () => {
@@ -12,6 +13,29 @@ const UploadButton = () => {
   const [uploadedFile, setUploadedFile] = useState(null);
   const [numPages, setNumPages] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
+
+  async function extractTextFromPDF(file) {
+    console.log('🔍 extractTextFromPDF called');
+
+    try {
+      const loadingTask = pdfjsLib.getDocument(URL.createObjectURL(file));
+      const pdf = await loadingTask.promise;
+      console.log('✅ PDF loaded. Total pages:', pdf.numPages);
+
+      let text = '';
+
+      for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+        const page = await pdf.getPage(pageNum);
+        const content = await page.getTextContent();
+        const pageText = content.items.map(item => item.str).join(' ');
+        text += pageText + ' ';
+      }
+
+      console.log('📄 Extracted PDF Text:\n\n', text);
+    } catch (error) {
+      console.error('❌ Failed to load PDF:', error);
+    }
+  }
 
   const onDrop = useCallback((acceptedFiles) => {
     const file = acceptedFiles[0];
@@ -50,6 +74,7 @@ const UploadButton = () => {
       setIsSuccessAnimated(false);
     }, 1500);
     console.log('Uploaded file:', file);
+    extractTextFromPDF(file);
   }, []);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
