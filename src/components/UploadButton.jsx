@@ -1,4 +1,15 @@
-const keywords = ["Python", "React", "AWS", "JavaScript", "Leadership"];
+const roleSkillMap = {
+  "Frontend Developer": ["React", "JavaScript", "CSS", "HTML", "TypeScript"],
+  "Backend Developer": ["Node.js", "Python", "AWS", "Docker", "Microservices"],
+  "Data Analyst": ["SQL", "Excel", "Python", "Tableau", "Statistics"],
+  "Marketing Specialist": ["SEO", "Content Strategy", "Google Analytics", "Social Media"]
+};
+const roles = [
+  "Frontend Developer",
+  "Backend Developer",
+  "Data Analyst",
+  "Marketing Specialist",
+];
 import { useDropzone } from 'react-dropzone';
 import { useState, useCallback } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
@@ -15,6 +26,8 @@ const UploadButton = () => {
   const [numPages, setNumPages] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
   const [matchedKeywords, setMatchedKeywords] = useState([]);
+  const [selectedRole, setSelectedRole] = useState("");
+  const [parsedResumeText, setParsedResumeText] = useState("");
 
   async function extractTextFromPDF(file) {
     console.log('🔍 extractTextFromPDF called');
@@ -34,15 +47,15 @@ const UploadButton = () => {
       }
 
       console.log('📄 Extracted PDF Text:\n\n', text);
-      extractKeywords(text);
+      setParsedResumeText(text);
     } catch (error) {
       console.error('❌ Failed to load PDF:', error);
     }
   }
 
-  function extractKeywords(resumeText) {
+  function extractKeywords(resumeText, keywordsList) {
     const words = resumeText.toLowerCase().split(/\W+/);
-    const foundKeywords = keywords.filter(keyword =>
+    const foundKeywords = keywordsList.filter(keyword =>
       words.includes(keyword.toLowerCase())
     );
     console.log("📚 Found Keywords:", foundKeywords);
@@ -114,6 +127,7 @@ const UploadButton = () => {
         </div>
       </div>
 
+
       {error && (
         <div
           key={error}
@@ -126,19 +140,53 @@ const UploadButton = () => {
       )}
 
       {fileName && (
-        <div
-          className={`flex items-center gap-2 text-green-600 mt-2 font-semibold transition-all duration-300 ${
-            isSuccessAnimated ? 'animate-shake text-2xl' : 'text-lg'
-          }`}
-        >
-          <span className="text-lg">✔</span>
-          <span>{fileName} uploaded successfully</span>
-        </div>
+        <>
+          <div
+            className={`flex items-center gap-2 text-green-600 mt-2 font-semibold transition-all duration-300 ${
+              isSuccessAnimated ? 'animate-shake text-2xl' : 'text-lg'
+            }`}
+          >
+            <span className="text-lg">✔</span>
+            <span>{fileName} uploaded successfully</span>
+          </div>
+          <div className="mt-4 w-full max-w-md">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              What role are you targeting?
+            </label>
+            <select
+              value={selectedRole}
+              onChange={(e) => {
+                setSelectedRole(e.target.value);
+                const selectedSkills = roleSkillMap[e.target.value] || [];
+                extractKeywords(parsedResumeText, selectedSkills);
+              }}
+              className="block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700"
+            >
+              <option value="">Select a role</option>
+              {roles.map((role, index) => (
+                <option key={index} value={role}>
+                  {role}
+                </option>
+              ))}
+            </select>
+          </div>
+        </>
       )}
 
-      {matchedKeywords && (
+      {selectedRole && matchedKeywords && (
         <div className="mt-6 w-full max-w-2xl text-center">
-          <h2 className="text-xl font-bold mb-2">🔍 Matched Keywords:</h2>
+          <div className="flex flex-col items-center gap-2 mb-2">
+            <h2 className="text-xl font-bold">🔍 Matched Keywords</h2>
+            <span
+              className={`${
+                matchedKeywords.length > 0
+                  ? 'bg-blue-200 text-blue-800'
+                  : 'bg-red-200 text-red-800'
+              } px-3 py-1 rounded-full text-sm`}
+            >
+              {selectedRole}
+            </span>
+          </div>
           {matchedKeywords.length > 0 ? (
             <div className="flex flex-wrap gap-2 justify-center">
               {matchedKeywords.map((keyword, index) => (
