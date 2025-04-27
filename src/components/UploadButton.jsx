@@ -1,3 +1,4 @@
+const keywords = ["Python", "React", "AWS", "JavaScript", "Leadership"];
 import { useDropzone } from 'react-dropzone';
 import { useState, useCallback } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
@@ -13,6 +14,7 @@ const UploadButton = () => {
   const [uploadedFile, setUploadedFile] = useState(null);
   const [numPages, setNumPages] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
+  const [matchedKeywords, setMatchedKeywords] = useState([]);
 
   async function extractTextFromPDF(file) {
     console.log('🔍 extractTextFromPDF called');
@@ -32,9 +34,19 @@ const UploadButton = () => {
       }
 
       console.log('📄 Extracted PDF Text:\n\n', text);
+      extractKeywords(text);
     } catch (error) {
       console.error('❌ Failed to load PDF:', error);
     }
+  }
+
+  function extractKeywords(resumeText) {
+    const words = resumeText.toLowerCase().split(/\W+/);
+    const foundKeywords = keywords.filter(keyword =>
+      words.includes(keyword.toLowerCase())
+    );
+    console.log("📚 Found Keywords:", foundKeywords);
+    setMatchedKeywords(foundKeywords);
   }
 
   const onDrop = useCallback((acceptedFiles) => {
@@ -121,6 +133,23 @@ const UploadButton = () => {
         >
           <span className="text-lg">✔</span>
           <span>{fileName} uploaded successfully</span>
+        </div>
+      )}
+
+      {matchedKeywords && (
+        <div className="mt-6 w-full max-w-2xl text-center">
+          <h2 className="text-xl font-bold mb-2">🔍 Matched Keywords:</h2>
+          {matchedKeywords.length > 0 ? (
+            <div className="flex flex-wrap gap-2 justify-center">
+              {matchedKeywords.map((keyword, index) => (
+                <span key={index} className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm">
+                  {keyword}
+                </span>
+              ))}
+            </div>
+          ) : (
+            <p className="text-gray-500 text-sm">No keywords matched.</p>
+          )}
         </div>
       )}
 
