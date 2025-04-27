@@ -1,28 +1,6 @@
-# resume-builder-saas
 Resume Builder SaaS
 
-A modern, responsive web app built with React that allows users to upload and manage resumes with ease. This is the beginning of a full SaaS application designed to simplify the resume creation and submission process.
-
-🚀 Features (Coming Soon)
-	•	Upload and parse resumes (PDF, DOCX)
-	•	Auto-generate resume templates
-	•	Customize and export professional resumes
-	•	Save resume versions for different job applications
-	•	User authentication and resume history tracking
-
-🛠️ Current Progress
-	•	Project initialized with Vite + React
-	•	Basic landing page with:
-	•	App name
-	•	Upload button (UI only, logic not yet implemented)
-	•	Footer with creator’s name
-
-📁 Tech Stack
-	•	React
-	•	Vite
-	•	Tailwind CSS (planned)
-	•	Node.js / Express (backend planned)
-	•	MongoDB / Firebase (planned for storage)
+A lightweight React + Vite application that lets users upload resumes (PDF), preview them in-browser, extract raw text using pdfjs-dist, and automatically detect important keywords. Built with TailwindCSS for a clean UI and react-dropzone for a smooth drag-and-drop experience. Matched keywords are displayed visually under the uploaded resume for easy review.
 
 👨‍💻 Built by
 
