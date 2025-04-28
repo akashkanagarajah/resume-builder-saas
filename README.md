@@ -1,7 +1,37 @@
-Resume Builder SaaS
+Smart Resume Analyzer 📄✨
 
-A lightweight React + Vite application that lets users upload resumes (PDF), preview them in-browser, extract raw text using pdfjs-dist, and automatically detect important keywords. Built with TailwindCSS for a clean UI and react-dropzone for a smooth drag-and-drop experience. Matched keywords are displayed visually under the uploaded resume for easy review.
+Upload your resume as a PDF, select your target role, and instantly see which important skills your resume highlights.
 
-👨‍💻 Built by
 
-Akash Kanagarajah — passionate about building tools that help people succeed in their careers.
+
+Features
+	•	PDF Resume Upload
+	•	Role-based Skill Detection (Frontend, Backend, Data, Marketing)
+	•	Dynamic Keyword Extraction
+	•	Responsive UI with TailwindCSS
+	•	Live Resume Preview
+
+
+
+Technologies Used
+	•	React (Vite)
+	•	React-Dropzone
+	•	Tailwind CSS
+	•	pdfjs-dist
+
+
+
+How to Use
+	1.	Upload your resume (PDF only, max 5MB).
+	2.	Select the role you’re targeting.
+	3.	Instantly see detected skills matched from your resume!
+
+
+
+Future Enhancements
+	•	AI-based dynamic role-to-skill mapping (using GPT API)
+	•	Missing skills suggestions
+	•	Resume optimization tips
+
+
+Built  by Akash Kanagarajah
