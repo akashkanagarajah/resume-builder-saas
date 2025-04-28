@@ -1,16 +1,5 @@
-const roleSkillMap = {
-  "Frontend Developer": ["React", "JavaScript", "CSS", "HTML", "TypeScript"],
-  "Backend Developer": ["Node.js", "Python", "AWS", "Docker", "Microservices"],
-  "Data Analyst": ["SQL", "Excel", "Python", "Tableau", "Statistics"],
-  "Marketing Specialist": ["SEO", "Content Strategy", "Google Analytics", "Social Media"]
-};
-const roles = [
-  "Frontend Developer",
-  "Backend Developer",
-  "Data Analyst",
-  "Marketing Specialist",
-];
 import { useDropzone } from 'react-dropzone';
+import { roles, roleSkillMap } from '../constants/roles';
 import { useState, useCallback } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import pdfWorker from 'pdfjs-dist/build/pdf.worker.min?url';
