@@ -185,7 +185,9 @@ const UploadButton = () => {
               ))}
             </div>
           ) : (
-            <p className="text-gray-500 text-sm">No keywords matched.</p>
+            <p className="text-gray-500 text-sm italic">
+              No key skills detected for this role. Consider adding them to your resume.
+            </p>
           )}
         </div>
       )}
@@ -200,16 +202,6 @@ const UploadButton = () => {
         </div>
       )}
 
-      <button
-        className={`mt-4 px-4 py-2 rounded text-white transition ${
-          fileName
-            ? "bg-gray-800 hover:bg-gray-700"
-            : "bg-gray-400 cursor-not-allowed"
-        }`}
-        disabled={!fileName}
-      >
-        Analyze Resume
-      </button>
     </div>
   );
 };
